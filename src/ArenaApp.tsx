@@ -1,40 +1,32 @@
 import React, { useState } from 'react';
+import TicTacToe from './components/TicTacToe';
+import ChessMatch from './components/ChessMatch';
+import WorldChat from './components/WorldChat';
+import './App.css';
 
-// ELO Rating System
-const EloSystem = () => {
-    // Logic for ELO rating can be implemented here
-    return <div>ELO System Component</div>;
-};
+function App() {
+  const [activeTab, setActiveTab] = useState('dashboard');
 
-// Tic Tac Toe Game
-const TicTacToe = () => {
-    // Logic for Tic Tac Toe can be implemented here
-    return <div>Tic Tac Toe Component</div>;
-};
+  return (
+    <div className="arena-app">
+      <header>
+        <h1>⚡ BOT ARENA PRO ⚡</h1>
+        <nav>
+          <button onClick={() => setActiveTab('dashboard')}>Dashboard</button>
+          <button onClick={() => setActiveTab('tictactoe')}>Tic Tac Toe</button>
+          <button onClick={() => setActiveTab('chess')}>Chess</button>
+          <button onClick={() => setActiveTab('chat')}>World Chat</button>
+        </nav>
+      </header>
 
-// Chess Game
-const Chess = () => {
-    // Logic for Chess can be implemented here
-    return <div>Chess Component</div>;
-};
+      <main>
+        {activeTab === 'dashboard' && <div><h2>Welcome to Arena Pro</h2></div>}
+        {activeTab === 'tictactoe' && <TicTacToe />}
+        {activeTab === 'chess' && <ChessMatch />}
+        {activeTab === 'chat' && <WorldChat />}
+      </main>
+    </div>
+  );
+}
 
-// World Chat
-const WorldChat = () => {
-    // Logic for world chat can be implemented here
-    return <div>World Chat Component</div>;
-};
-
-// Main Arena App Component
-const ArenaApp = () => {
-    return (
-        <div>
-            <h1>Arena App</h1>
-            <EloSystem />
-            <TicTacToe />
-            <Chess />
-            <WorldChat />
-        </div>
-    );
-};
-
-export default ArenaApp;
+export default App;

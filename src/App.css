@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #04040a;
+  color: #e8e8f0;
+  font-family: 'Orbitron', 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+.arena-app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #04040a 0%, #0a0a14 100%);
+  position: relative;
+}
+
+/* Grid background effect */
+.arena-app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 200, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 200, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  background: rgba(4, 4, 10, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 200, 255, 0.12);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  background: linear-gradient(135deg, #00c8ff 0%, #00ffb3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 28px;
+  margin-bottom: 15px;
+  letter-spacing: 3px;
+}
+
+nav {
+  display: flex;
+  gap: 10px;
+}
+
+nav button {
+  background: transparent;
+  border: 1px solid rgba(0, 200, 255, 0.3);
+  color: #00c8ff;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  font-size: 12px;
+}
+
+nav button:hover {
+  border-color: #00ffb3;
+  color: #00ffb3;
+  box-shadow: 0 0 20px rgba(0, 255, 179, 0.2);
+}
+
+main {
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.board button {
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 200, 255, 0.1);
+  border: 2px solid #00c8ff;
+  color: #00ffb3;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.board button:hover {
+  background: rgba(0, 200, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+}

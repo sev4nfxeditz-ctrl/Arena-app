@@ -1,14 +1,4 @@
 {
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "args": [],
-    "outputDirectory": "dist",  
-    "ignoreBuildErrors": false
-  },
-  "output": {
-    "dir": "dist",
-    "format": "html"
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next"
 }

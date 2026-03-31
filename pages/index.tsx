@@ -1,12 +1,3 @@
-import React from 'react';
+import ArenaApp from '../src/ArenaApp';
 
-const HomePage: React.FC = () => {
-    return (
-        <div>
-            <h1>Welcome to the Arena App</h1>
-            <p>This is the homepage of your application.</p>
-        </div>
-    );
-};
-
-export default HomePage;
+export default ArenaApp;

@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Chess, Square as ChessSquare } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
-import { Chess } from 'chess.js';
 
 const ChessMatch = () => {
-    const [game, setGame] = useState(new Chess());
-    const [fen, setFen] = useState(game.fen());
+  const game = useMemo(() => new Chess(), []);
+  const [fen, setFen] = useState(game.fen());
 
-    useEffect(() => {
-        const onDrop = (sourceSquare, targetSquare) => {
-            const move = game.move({
-                from: sourceSquare,
-                to: targetSquare,
-                promotion: 'q' // always promote to queen for simplicity
-            });
+  const handlePieceDrop = (sourceSquare: ChessSquare, targetSquare: ChessSquare) => {
+    const move = game.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: 'q',
+    });
 
-            // illegal move
-            if (move === null) return;
-            setFen(game.fen());
-        };
+    if (move === null) {
+      return false;
+    }
 
-        setGame(game);
-    }, [game]);
+    setFen(game.fen());
+    return true;
+  };
 
-    return (
-        <div>
-            <Chessboard
-                position={fen}
-                onDrop={onDrop}
-            />
-        </div>
-    );
+  return (
+    <div>
+      <Chessboard position={fen} onPieceDrop={handlePieceDrop} />
+    </div>
+  );
 };
 
 export default ChessMatch;

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import TicTacToe from './components/TicTacToe';
 import ChessMatch from './components/ChessMatch';
 import WorldChat from './components/WorldChat';
-import './App.css';
 
-function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+type ActiveTab = 'dashboard' | 'tictactoe' | 'chess' | 'chat';
+
+function ArenaApp() {
+  const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
 
   return (
     <div className="arena-app">
       <header>
-        <h1>⚡ BOT ARENA PRO ⚡</h1>
+        <h1>BOT ARENA PRO</h1>
         <nav>
           <button onClick={() => setActiveTab('dashboard')}>Dashboard</button>
           <button onClick={() => setActiveTab('tictactoe')}>Tic Tac Toe</button>
@@ -20,7 +21,11 @@ function App() {
       </header>
 
       <main>
-        {activeTab === 'dashboard' && <div><h2>Welcome to Arena Pro</h2></div>}
+        {activeTab === 'dashboard' && (
+          <div>
+            <h2>Welcome to Arena Pro</h2>
+          </div>
+        )}
         {activeTab === 'tictactoe' && <TicTacToe />}
         {activeTab === 'chess' && <ChessMatch />}
         {activeTab === 'chat' && <WorldChat />}
@@ -29,4 +34,4 @@ function App() {
   );
 }
 
-export default App;
+export default ArenaApp;

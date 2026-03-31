@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { ChatMessage } from '../../../shared/types';
+import type { ChatMessage } from '@shared/types';
 
 interface ChatStore {
   messages: Record<string, ChatMessage[]>;

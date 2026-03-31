@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useGameStore } from '@/store/useGameStore';
 import { connectSocket, getSocket } from '@/lib/socket';
-import type { GameType, TimePreset } from '../../../../shared/types';
-import { TIME_CONTROLS } from '../../../../shared/constants';
+import type { GameType, TimePreset } from '@shared/types';
+import { TIME_CONTROLS } from '@shared/constants';
 
 const GAMES = [
   { id: 'chess' as GameType, name: 'Chess', emoji: '♟️', color: 'from-blue-500 to-cyan-500' },
@@ -23,6 +23,21 @@ const TIME_PRESETS: { preset: TimePreset; icon: string }[] = [
 ];
 
 export default function LobbyPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center animate-float">
+          <p className="text-5xl mb-4">⚡</p>
+          <p className="text-gray-400 font-rajdhani">Loading lobby...</p>
+        </div>
+      </div>
+    }>
+      <LobbyContent />
+    </Suspense>
+  );
+}
+
+function LobbyContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isAuthenticated, token, user } = useAuthStore();

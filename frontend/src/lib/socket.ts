@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import type { ServerToClientEvents, ClientToServerEvents } from '../../../shared/types';
+import type { ServerToClientEvents, ClientToServerEvents } from '@shared/types';
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents> | null = null;
 

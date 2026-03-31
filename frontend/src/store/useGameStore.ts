@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GameType, GameState, GamePlayer, PlayerTimers, TimeControl, EloChange, GameMove } from '../../../shared/types';
+import type { GameType, GameState, GamePlayer, PlayerTimers, TimeControl, EloChange, GameMove } from '@shared/types';
 
 interface GameStore {
   // Room state

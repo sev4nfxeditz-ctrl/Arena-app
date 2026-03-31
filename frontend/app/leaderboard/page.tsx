@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { apiRequest } from '@/lib/socket';
-import type { GameType } from '../../../shared/types';
-import { RANK_TIERS, getRankForElo } from '../../../shared/constants';
+import type { GameType } from '@shared/types';
+import { RANK_TIERS, getRankForElo } from '@shared/constants';
 
 const GAMES: { id: GameType; name: string; emoji: string }[] = [
   { id: 'chess', name: 'Chess', emoji: '♟️' },

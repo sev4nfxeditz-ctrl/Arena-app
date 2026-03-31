@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useGameStore } from '@/store/useGameStore';
 import { connectSocket, getSocket } from '@/lib/socket';
-import type { GameType, GameMove } from '../../../../../../shared/types';
+import type { GameType, GameMove } from '@shared/types';
 
 // ---- TicTacToe Board Component ----
 function TicTacToeBoard({ state, onMove, myId }: { state: any; onMove: (move: any) => void; myId: string }) {
@@ -211,7 +211,7 @@ export default function GameRoomPage() {
     // For AI games, trigger AI response after our move
     if (roomId.includes('ai')) {
       setTimeout(() => {
-        socket.emit('ai_move', { roomId, move: {} });
+        socket.emit('ai_move', { roomId, move: { to: '' } as GameMove });
       }, 100);
     }
   }, [roomId]);

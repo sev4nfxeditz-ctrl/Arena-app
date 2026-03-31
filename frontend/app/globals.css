@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Google Fonts (loaded via layout.tsx <link>) ---- */
+
+/* ---- Global Base ---- */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-arena-bg text-gray-100 font-inter overflow-x-hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-arena-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-arena-cyan/30 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-arena-cyan/50;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-arena-cyan/30 text-white;
+  }
+}
+
+/* ---- Reusable Components ---- */
+@layer components {
+  /* Glass Panel */
+  .glass-panel {
+    @apply bg-arena-bg-card backdrop-blur-xl border border-arena-cyan/10 rounded-xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Neon Text */
+  .text-neon {
+    @apply bg-gradient-to-r from-arena-cyan to-arena-green bg-clip-text text-transparent;
+  }
+
+  /* Neon Button */
+  .btn-neon {
+    @apply relative px-6 py-3 font-orbitron font-bold text-sm tracking-wider
+           border border-arena-cyan/40 text-arena-cyan rounded-lg
+           transition-all duration-300 ease-out
+           hover:border-arena-green hover:text-arena-green
+           hover:shadow-neon-green active:scale-95;
+    background: rgba(0, 200, 255, 0.05);
+  }
+
+  .btn-neon-fill {
+    @apply btn-neon bg-gradient-to-r from-arena-cyan/20 to-arena-green/20
+           hover:from-arena-cyan/30 hover:to-arena-green/30;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 font-rajdhani font-bold text-sm tracking-wider
+           bg-gradient-to-r from-arena-cyan to-arena-green text-arena-bg rounded-lg
+           transition-all duration-300 ease-out
+           hover:shadow-neon-cyan active:scale-95;
+  }
+
+  .btn-danger {
+    @apply px-6 py-3 font-rajdhani font-bold text-sm tracking-wider
+           border border-arena-red/40 text-arena-red rounded-lg
+           bg-arena-red/5 transition-all duration-300
+           hover:bg-arena-red/10 hover:shadow-[0_0_20px_rgba(255,71,87,0.3)]
+           active:scale-95;
+  }
+
+  /* Input */
+  .input-neon {
+    @apply w-full px-4 py-3 bg-arena-bg/50 border border-arena-cyan/20 rounded-lg
+           text-gray-100 font-inter placeholder-gray-500
+           focus:outline-none focus:border-arena-cyan/60 focus:shadow-neon-cyan
+           transition-all duration-300;
+  }
+
+  /* Card */
+  .card-game {
+    @apply glass-panel p-6 cursor-pointer
+           transition-all duration-500 ease-out
+           hover:border-arena-cyan/30 hover:shadow-neon-cyan
+           hover:-translate-y-2;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-3 py-1 rounded-full
+           text-xs font-bold font-orbitron tracking-wider;
+  }
+
+  .badge-bronze { @apply badge bg-arena-bronze/20 text-arena-bronze border border-arena-bronze/30; }
+  .badge-silver { @apply badge bg-arena-silver/20 text-arena-silver border border-arena-silver/30; }
+  .badge-gold { @apply badge bg-arena-gold/20 text-arena-gold border border-arena-gold/30; }
+  .badge-platinum { @apply badge bg-arena-platinum/20 text-arena-platinum border border-arena-platinum/30; }
+  .badge-diamond { @apply badge bg-arena-diamond/20 text-arena-diamond border border-arena-diamond/30; }
+
+  /* Stat Card */
+  .stat-box {
+    @apply glass-panel p-4 text-center;
+  }
+  .stat-box .stat-value {
+    @apply text-2xl font-orbitron font-bold text-neon;
+  }
+  .stat-box .stat-label {
+    @apply text-xs text-gray-400 font-rajdhani tracking-wider mt-1;
+  }
+}
+
+/* ---- Utilities ---- */
+@layer utilities {
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 200, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 200, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+}

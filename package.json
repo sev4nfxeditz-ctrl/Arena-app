@@ -1,1 +1,19 @@
-{\n  "name": "Arena-app",\n  "version": "1.0.0",\n  "private": true,\n  "scripts": {\n    "dev": "next dev",\n    "build": "next build",\n    "start": "next start"\n  },\n  "dependencies": {\n    "next": "latest",\n    "react": "latest",\n    "react-dom": "latest"\n  },\n  "devDependencies": {\n    "eslint": "latest",\n    "eslint-config-next": "latest"\n  }\n}
+{
+  "name": "arena-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-next": "latest"
+  }
+}

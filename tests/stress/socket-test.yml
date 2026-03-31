@@ -1,0 +1,97 @@
+# ============================================
+# Arena Pro — Socket.IO Stress Test
+# Tests concurrent WebSocket connections & matchmaking
+# ============================================
+#
+# Run: artillery run tests/stress/socket-test.yml
+# ============================================
+
+config:
+  target: "http://localhost:4000"
+  phases:
+    - name: "Socket warm up"
+      duration: 10
+      arrivalRate: 10
+    - name: "Socket ramp"
+      duration: 30
+      arrivalRate: 10
+      rampTo: 100
+    - name: "Sustained WebSocket connections"
+      duration: 60
+      arrivalRate: 100
+    - name: "Cool down"
+      duration: 10
+      arrivalRate: 10
+
+  engines:
+    socketio-v3:
+      transports: ["websocket"]
+
+  processor: "./socket-functions.js"
+
+  ensure:
+    thresholds:
+      - engine.socketio.response_time.p95: 200
+
+scenarios:
+  # ---- Scenario 1: Connect → Join Queue → Wait → Disconnect ----
+  - name: "Matchmaking Flow"
+    weight: 40
+    engine: socketio-v3
+    flow:
+      - function: "getTestToken"
+      - emit:
+          channel: "join_queue"
+          data:
+            gameType: "tictactoe"
+            timeControl: "casual"
+      - think: 5
+      - emit:
+          channel: "leave_queue"
+      - think: 1
+
+  # ---- Scenario 2: Connect → Create Private Room → Wait → Disconnect ----
+  - name: "Private Room Flow"
+    weight: 20
+    engine: socketio-v3
+    flow:
+      - function: "getTestToken"
+      - emit:
+          channel: "create_private"
+          data:
+            gameType: "chess"
+            timeControl: "rapid"
+      - think: 10
+
+  # ---- Scenario 3: Chat Messages Under Load ----
+  - name: "Chat Flood"
+    weight: 20
+    engine: socketio-v3
+    flow:
+      - function: "getTestToken"
+      - emit:
+          channel: "join_channel"
+          data:
+            channel: "global"
+      - think: 1
+      - loop:
+          - emit:
+              channel: "send_message"
+              data:
+                channel: "global"
+                content: "{{ $randomString() }} stress test message"
+          - think: 2
+        count: 5
+      - emit:
+          channel: "leave_channel"
+          data:
+            channel: "global"
+
+  # ---- Scenario 4: Rapid Connect/Disconnect (Connection Churn) ----
+  - name: "Connection Churn"
+    weight: 20
+    engine: socketio-v3
+    flow:
+      - function: "getTestToken"
+      - think: 2
+      # Socket automatically disconnects at end of flow

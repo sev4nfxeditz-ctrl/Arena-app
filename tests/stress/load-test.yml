@@ -1,0 +1,182 @@
+# ============================================
+# Arena Pro — Stress Testing with Artillery
+# ============================================
+#
+# Install: npm install -g artillery@latest
+# Run:     artillery run tests/stress/load-test.yml
+# Report:  artillery run tests/stress/load-test.yml -o report.json
+#          artillery report report.json
+# ============================================
+
+config:
+  target: "http://localhost:4000"
+  phases:
+    # Warm up
+    - name: "Warm up"
+      duration: 10
+      arrivalRate: 5
+    # Ramp up
+    - name: "Ramp up"
+      duration: 30
+      arrivalRate: 5
+      rampTo: 50
+    # Sustained load
+    - name: "Sustained load"
+      duration: 60
+      arrivalRate: 50
+    # Spike test
+    - name: "Spike"
+      duration: 15
+      arrivalRate: 100
+    # Cool down
+    - name: "Cool down"
+      duration: 10
+      arrivalRate: 10
+
+  processor: "./functions.js"
+
+  # Request defaults
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+  # Ensure we track errors
+  ensure:
+    thresholds:
+      - http.response_time.p95: 500
+      - http.response_time.p99: 1000
+
+  variables:
+    gameTypes:
+      - "chess"
+      - "checkers"
+      - "tictactoe"
+
+scenarios:
+  # ---- Scenario 1: Health Check (Baseline) ----
+  - name: "Health Check"
+    weight: 10
+    flow:
+      - get:
+          url: "/health"
+          expect:
+            - statusCode: 200
+            - contentType: json
+
+  # ---- Scenario 2: Auth Flow (Register + Login) ----
+  - name: "Auth Flow"
+    weight: 20
+    flow:
+      - function: "generateUser"
+      - post:
+          url: "/api/auth/register"
+          json:
+            username: "{{ username }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.data.token"
+              as: "token"
+          expect:
+            - statusCode: 201
+      - think: 1
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          expect:
+            - statusCode: 200
+
+  # ---- Scenario 3: Leaderboard Browsing ----
+  - name: "Leaderboard Browse"
+    weight: 15
+    flow:
+      - get:
+          url: "/api/leaderboard/chess?page=1&limit=25"
+          expect:
+            - statusCode: 200
+      - think: 2
+      - get:
+          url: "/api/leaderboard/checkers?page=1&limit=25"
+          expect:
+            - statusCode: 200
+      - think: 1
+      - get:
+          url: "/api/leaderboard/tictactoe?page=1&limit=25"
+          expect:
+            - statusCode: 200
+
+  # ---- Scenario 4: Match History ----
+  - name: "Match History"
+    weight: 10
+    flow:
+      - get:
+          url: "/api/matches?page=1&limit=20"
+          expect:
+            - statusCode:
+              - 200
+              - 401
+
+  # ---- Scenario 5: Monitoring Dashboard ----
+  - name: "Monitoring"
+    weight: 5
+    flow:
+      - get:
+          url: "/api/monitoring/health"
+          expect:
+            - statusCode:
+              - 200
+              - 503
+      - get:
+          url: "/api/monitoring/dashboard"
+          expect:
+            - statusCode: 200
+      - get:
+          url: "/api/monitoring/metrics"
+          expect:
+            - statusCode: 200
+
+  # ---- Scenario 6: Full User Journey ----
+  - name: "Full User Journey"
+    weight: 40
+    flow:
+      - function: "generateUser"
+      # Register
+      - post:
+          url: "/api/auth/register"
+          json:
+            username: "{{ username }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.data.token"
+              as: "token"
+          expect:
+            - statusCode: 201
+      - think: 1
+      # Check leaderboard
+      - get:
+          url: "/api/leaderboard/chess?page=1&limit=10"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 200
+      - think: 2
+      # Check own profile
+      - get:
+          url: "/api/users/{{ username }}"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode:
+              - 200
+              - 404
+      - think: 1
+      # Browse match history
+      - get:
+          url: "/api/matches?page=1&limit=10"
+          headers:
+            Authorization: "Bearer {{ token }}"
+          expect:
+            - statusCode: 200

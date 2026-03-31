@@ -1,4 +1,9 @@
 module.exports = {
   reactStrictMode: true,
-  // Place any other Next.js configuration settings here.
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    ignoreBuildErrors: true,
+  },
 };

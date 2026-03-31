@@ -7,7 +7,7 @@ const ChessMatch = () => {
     const [fen, setFen] = useState(game.fen());
 
     useEffect(() => {
-        const onDrop = (sourceSquare, targetSquare) => {
+        const onDrop = (sourceSquare: string, targetSquare: string) => {
             const move = game.move({
                 from: sourceSquare,
                 to: targetSquare,

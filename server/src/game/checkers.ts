@@ -217,7 +217,7 @@ export class CheckersEngine implements GameEngine {
 
     // Check for multi-jump
     let mustJump: number | null = null;
-    let nextColor = state.currentColor === 'red' ? 'black' : 'red';
+    let nextColor: 'red' | 'black' = state.currentColor === 'red' ? 'black' : 'red';
 
     if (isJump) {
       const furtherJumps = this.getJumpsForPiece(newBoard, move.to);

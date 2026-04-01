@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/server/src/index.js",
     "migrate": "tsx src/migrate.ts",
     "test:stress": "artillery run ../tests/stress/load-test.yml",
     "test:stress:sockets": "artillery run ../tests/stress/socket-test.yml",

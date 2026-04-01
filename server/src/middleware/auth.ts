@@ -47,6 +47,6 @@ export function optionalAuth(req: AuthRequest, _res: Response, next: NextFunctio
 
 export function generateToken(payload: AuthPayload): string {
   return jwt.sign(payload, env.JWT_SECRET, {
-    expiresIn: env.JWT_EXPIRES_IN as string,
-  });
+    expiresIn: env.JWT_EXPIRES_IN,
+  } as any);
 }
